@@ -6,28 +6,31 @@
                 <ul>
                     <li>
                         <div class="tubiao">✅</div>
-                        <input type="text">
+                        <input type="text" v-model="username" placeholder="用户名">
                     </li>
                     <li>
                         <div class="tubiao">✅</div>
-                        <input type="text">
+                        <input type="password" v-model="password" placeholder="密码">
                     </li>
                     <li>
-                        <input type="text">
+                        <input type="text" placeholder="验证码">
                         <div class="verificationcode">验证码</div>
                     </li>
                     <li>
-                        <input type="checkbox" class="checkbox">
+                        <input type="checkbox" class="checkbox" v-model="rememberMe">
                         <p class="r_password">记住密码</p>
                     </li>
                 </ul>
-                <button>登录</button>
+                <button type="submit">注册</button>
             </form>
+            <button class="goto" @click="goToLogin">去登录页</button>
         </div>
     </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
     name: 'Register',
     data() {
@@ -37,18 +40,32 @@ export default {
             rememberMe: false
         }
     },
+    created() {
+        this.username = 'admin',
+        this.password = '12345'
+    },
     methods: {
+        ...mapActions(['register']),
         handleSubmit() {
-            if (this.username !== 'admin') {
-                alert('账号是admin')
-            }
-            if (this.username !== '12345') {
-                alert('密码是12345')
-            }
-            if (!this.username && !this.password) {
-                const rem = this.rememberMe ? '记住了' : '没有记住';  
-                alert(`用户名: ${this.username}， 密码: ${this.password}， 记住密码: ${rem}`)
-            }
+            const user = { 
+                username: this.username,
+                password: this.password
+            }  
+
+            // 这里是注册逻辑
+            this.register(user)
+
+            const rem = this.rememberMe ? '记住了' : '没有记住';  
+            alert(`注册的用户名: ${this.username}， 注册的密码: ${this.password}， 是否记住密码: ${rem}`)
+
+            // 清空输入框
+            this.username = '';
+            this.password = '';
+            // 注册成功后跳转到登录页面
+            this.$router.push('/Login')
+        },
+        goToLogin() {
+            this.$router.push('/Login')
         }
     }
 }
@@ -72,6 +89,7 @@ export default {
     background: #ffffff;
     border-radius: 4px;
     border: 1px solid #dcdada;
+    position: relative;
 }
 .Register form {
     width: 345px;
@@ -153,5 +171,14 @@ export default {
 .r_password {
     font-size: 14px;
     color: #222;
+}
+.goto {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 70px;
+    height: 40px;
+    background-color: pink;
+    line-height: 40px;
 }
 </style>

@@ -22,13 +22,14 @@
                     </li>
                 </ul>
                 <button type="submit">登录</button>
-            </form>
+            </form> 
+            <button class="goto" @click="goToRegister">去注册页</button>
         </div>
     </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapActions } from 'vuex'
 
 export default {
     name: 'Login',
@@ -39,38 +40,30 @@ export default {
             rememberMe: false,
         }
     },
-    computed: {  
-        ...mapGetters(['getUser']), // 映射 Vuex 的 getUser getter  
-    },  
+    created() {
+        this.username = 'admin',
+        this.password = '12345'
+    },
     methods: {
         ...mapActions(['login']),
         handleSubmit() {
-            if (this.username === 'admin' && this.password === '12345') {  
-                // 包装对象  
-                const user = {  
-                    username: this.username  
-                }  
-                console.log(user) // 有东西
-                console.log(this.login); // 打印 login 方法  
-                // 调用 vuex 仓库中的 login 方法  
-                this.login(user); // 把包装好的对象丢进去  
-                // const rem = this.rememberMe ? '记住了' : '没有记住';  
-                // alert(`用户名: ${this.username}， 密码: ${this.password}， 记住密码: ${rem}`)  
-            } else {  
-                if (this.username !== 'admin') {  
-                    alert('请重新输入账号');  
-                }  
-                if (this.password !== '12345') {  
-                    alert('请重新输入密码');  
-                }  
-            } 
+            const user = { 
+                username: this.username,
+                password: this.password
+            }  
+
+            // 调用 vuex 仓库中的 login 方法  
+            this.login(user); 
+
+            const rem = this.rememberMe ? '记住了' : '没有记住';  
+            alert(`用户名: ${this.username}， 密码: ${this.password}， 记住密码: ${rem}`)
+
+            this.$router.push('/')
         },
-    },
-    // watch: {  
-    //     getUser(newValue) {  // 监听 Vuex 的 getUser  
-    //         console.log('用户信息已更新:', newValue);  
-    //     }   
-    // }  
+        goToRegister() {
+            this.$router.push('/register')
+        }
+    }
 }
 </script>
 
@@ -92,6 +85,7 @@ export default {
     background: #ffffff;
     border-radius: 4px;
     border: 1px solid #dcdada;
+    position: relative;
 }
 .loginbox form {
     width: 345px;
@@ -165,14 +159,19 @@ export default {
 .loginbox form button {
     width: 320px;
     height: 40px;
-    border: 0;
-    color: #fff;
     background-color: rgb(54, 141, 224);
-    cursor: pointer;
 }
 .r_password {
     font-size: 14px;
     color: #222;
 }
-
+.goto {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 70px;
+    height: 40px;
+    background-color: pink;
+    line-height: 40px;
+}
 </style>

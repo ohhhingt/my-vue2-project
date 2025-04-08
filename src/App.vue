@@ -27,6 +27,12 @@ input {
   color: #333;
 }
 
+button {
+  border: 0;
+  color: #fff;
+  cursor: pointer;
+}
+
 input::placeholder {
   color: #aaa;
 }
