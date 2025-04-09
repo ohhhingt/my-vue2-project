@@ -10,51 +10,55 @@ export default new Vuex.Store({
         currentUser: JSON.parse(localStorage.getItem('currentUser')) || null
     },
     mutations: {
+        // 设置当前的user状态
         setUser(state, user) {
-            // 设置当前的
             state.currentUser = user;
-            localStorage.setItem('currentUser', JSON.stringify(user))
         },
-        // 清除当前用户
+        // 清除当前user状态
         clearUser(state) {
             state.currentUser = null
-            localStorage.removeItem('currentUser')
         },
+        // 给user添加东西的设置
         addUser(state, user) {
-            // 设置user的 添加东西
             state.users.push(user)
             localStorage.setItem('users', JSON.stringify(state.users))
         }
     },
     actions: {
-        login({commit}) {
-            const now = JSON.parse(localStorage.getItem('users'))
-
-            // 进行身份验证
-            if (now) {
-                // 登录成功 设置当前用户信息 
-                commit('setUser', now); 
-                console.log('登录成功')
-            } else {
-                console.log('登录失败')
-            }
+        async login({ commit, state }, user) {  
+            // 从 Vuex 中获取用户列表  
+            const users = state.users;  
+    
+            // 查找匹配的用户  
+            const foundUser = users.find(u => u.username === user.username && u.password === user.password);  
+    
+            if (foundUser) {  
+                // 如果成功更新当前user的状态
+                commit('setUser', foundUser);  
+                console.log('登录成功');   
+                return true;
+            } else {  
+                console.log('登录失败');  
+                return false;
+            }  
         },
         // 注册
         register({commit}, user) {
-            console.log(user)
             // 注册成功，设置当前用户信息
             commit('setUser', user)
             // 将用户添加到用户列表
             commit('addUser', user)
-            console.log('注册成功：', user.username)
         },
         // 退出登录用的
         logout({commit}) {
+            // 调用vuex方法 清除当前用户状态
             commit('clearUser')
+            // 清除本地存储
+            localStorage.removeItem('currentUser')
         }
     },
     getters: {
-        isLoggedIn: state => !!state.user, // 判断用户是否登录
-        getUser: state => state.user // 获取用户信息
+        isLoggedIn: state => !!state.currentUser, // 判断用户是否登录
+        getUser: state => state.currentUser // 获取用户信息
     }
 })

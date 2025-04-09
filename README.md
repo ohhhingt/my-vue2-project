@@ -20,3 +20,6 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ## 在有v-model的输入框中使用value v-model会覆盖value的值
 所有应该设置v-model的值 而不是设置html的value
+
+## vuex提交最好在store中 而本地存储最好的页面的方法中
+只有vuex成功后返回结果 再进行本地存储

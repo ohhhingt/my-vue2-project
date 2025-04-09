@@ -46,23 +46,27 @@ export default {
     },
     methods: {
         ...mapActions(['login']),
-        handleSubmit() {
+        async handleSubmit() {
             const user = { 
                 username: this.username,
                 password: this.password
             }  
 
-            // 调用 vuex 仓库中的 login 方法  
-            this.login(user); 
+            // 调用 Vuex 仓库中的 login 方法，并等待结果  
+            const success = await this.login(user); 
 
-            const rem = this.rememberMe ? '记住了' : '没有记住';  
-            alert(`用户名: ${this.username}， 密码: ${this.password}， 记住密码: ${rem}`)
-
-            this.$router.push('/')
+            if (success) {
+                // 存储用户信息
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                // 跳转到首页
+                this.$router.push('/')
+            } else {
+                console.log('登录失败')
+            }
         },
         goToRegister() {
             this.$router.push('/register')
-        }
+        } 
     }
 }
 </script>
