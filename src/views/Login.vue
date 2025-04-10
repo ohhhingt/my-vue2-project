@@ -22,7 +22,7 @@
                     </li>
                 </ul>
                 <button type="submit">登录</button>
-            </form> 
+            </form>
             <button class="goto" @click="goToRegister">去注册页</button>
         </div>
     </div>
@@ -42,31 +42,40 @@ export default {
     },
     created() {
         this.username = 'admin',
-        this.password = '12345'
+            this.password = '12345'
     },
     methods: {
         ...mapActions(['login']),
         async handleSubmit() {
-            const user = { 
+            const user = {
                 username: this.username,
                 password: this.password
-            }  
+            }
 
             // 调用 Vuex 仓库中的 login 方法，并等待结果  
-            const success = await this.login(user); 
+            const success = await this.login(user);
 
             if (success) {
+                console.log('Login successful, navigating to home...'); 
                 // 存储用户信息
                 localStorage.setItem('currentUser', JSON.stringify(user));
-                // 跳转到首页
-                this.$router.push('/')
+
+                // 确保状态更新后再跳转  
+                this.$nextTick(() => {
+                    // 跳转到首页  
+                    this.$router.replace('/home').catch(err => {
+                        if (err.name !== 'NavigationDuplicated') {
+                            console.error(err);
+                        }
+                    });
+                });
             } else {
                 console.log('登录失败')
             }
         },
         goToRegister() {
             this.$router.push('/register')
-        } 
+        }
     }
 }
 </script>
@@ -83,6 +92,7 @@ export default {
     align-items: center;
     color: white;
 }
+
 .loginbox {
     width: 365px;
     height: 335px;
@@ -91,18 +101,22 @@ export default {
     border: 1px solid #dcdada;
     position: relative;
 }
+
 .loginbox form {
     width: 345px;
     height: 290px;
     padding-left: 10px;
 }
+
 .tubiao {
     width: 28px;
     height: 23px;
 }
+
 .loginbox form h3 {
     color: #222;
 }
+
 .loginbox form ul {
     width: 327px;
     height: 210px;
@@ -121,23 +135,28 @@ export default {
     border-radius: 4px;
 
 }
+
 .loginbox form ul li:last-child {
     width: 300px;
     height: 20px;
     border: 1px solid #fff;
 }
+
 .loginbox form ul li input {
     width: 262px;
     height: 30px;
 }
+
 .loginbox form ul li .checkbox {
     width: 12px;
     height: 12px;
 }
+
 .loginbox form ul li .checkbox {
     width: 12px;
     height: 12px;
 }
+
 .loginbox form ul li:nth-child(3) {
     width: 300px;
     height: 40px;
@@ -148,10 +167,12 @@ export default {
     margin-bottom: 14px;
     border-radius: 4px;
 }
-.loginbox form ul li:nth-child(3) input{
+
+.loginbox form ul li:nth-child(3) input {
     width: 192px;
 }
-.loginbox form ul li:nth-child(3) .verificationcode{
+
+.loginbox form ul li:nth-child(3) .verificationcode {
     width: 100px;
     height: 40px;
     background-color: darkcyan;
@@ -165,10 +186,12 @@ export default {
     height: 40px;
     background-color: rgb(54, 141, 224);
 }
+
 .r_password {
     font-size: 14px;
     color: #222;
 }
+
 .goto {
     position: absolute;
     top: 0;

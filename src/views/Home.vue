@@ -9,30 +9,15 @@
             <!-- el-row内容 -->
             <el-row class="tac">
                 <el-col>
-                    <el-menu default-active="2" class="el-menu-vertical-demo" 
-                        @open="handleOpen" @close="handleClose"
-                        background-color="#545c64" text-color="#fff" 
-                        active-text-color="#ffd04b">
-                        <el-menu-item index="2" @click="$router.push('/one')">
+                    <el-menu default-active="2" class="el-menu-vertical-demo" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
+                        <el-menu-item index="2" @click="navigateTo('one')">
                             <i class="el-icon-menu"></i>
                             <span slot="title">导航一</span>
                         </el-menu-item>
-                        <el-menu-item index="3" @click="$router.push('/two')">
+                        <el-menu-item index="3" @click="navigateTo('two')">
                             <i class="el-icon-document"></i>
                             <span slot="title">导航二</span>
                         </el-menu-item>
-                        <!-- 可折叠的选项卡 -->
-                        <!-- <el-submenu index="1">
-                            <template slot="title">
-                                <i class="el-icon-location"></i>
-                                <span>导航三</span>
-                            </template>
-                            <el-menu-item-group>
-                                <template slot="title">分组一</template>
-                                <el-menu-item index="1-1">选项1</el-menu-item>
-                                <el-menu-item index="1-2">选项2</el-menu-item>
-                            </el-menu-item-group>
-                        </el-submenu> -->
                     </el-menu>
                 </el-col>
             </el-row>
@@ -80,11 +65,22 @@ export default {
         goToLogin() {
             this.$router.push('/Login')
         },
-        handleOpen(key, keyPath) {
-            console.log(key, keyPath);
-        },
-        handleClose(key, keyPath) {
-            console.log(key, keyPath);
+        // 跳转方法 避免重复导航
+        // 这么做的好处是 如果已经在当前路由 则不做处理
+        navigateTo(pageNum) {
+            // 输出当前路由
+            // console.log('当前路由:', this.$route.path);
+
+            if (this.$route.path !== `/${pageNum}`) { // 检查当前路由  
+                console.log(`跳转到 /${pageNum}`); // 输出跳转信息  
+                this.$router.push(`/${pageNum}`).catch(err => {
+                    if (err.name !== 'NavigationDuplicated') {
+                        // console.error(err); // 处理其他错误  
+                    }
+                });
+            } else {
+                console.log('已经在 /one 路由，不需要跳转'); // 输出已在目标路由的信息  
+            }
         }
     }
 }
@@ -92,20 +88,10 @@ export default {
 
 <style scoped>
 /* 整体设置 */
-.el-container:nth-child(1),
-.el-container:nth-child(2) {
-    height: 729px;
-}
-
 .el-container:nth-child(1) {
     display: flex;
 }
 
-.el-container:nth-child(2) {
-    width: 1321px;
-    /* 这个不用因为 内容区禁止缩小跑非常右边去了 */
-    /* flex-shrink: 0; 禁止缩小 */
-}
 /* 整个aside侧边栏 */
 .el-aside {
     width: 200px !important;
@@ -113,8 +99,10 @@ export default {
     color: #333;
     text-align: center;
     line-height: 200px;
-    flex-shrink: 0; /* 禁止缩小 */
+    flex-shrink: 0;
+    /* 禁止缩小 */
 }
+
 /* logo区 */
 .logo {
     width: 200px;
@@ -136,9 +124,10 @@ export default {
     height: 40px;
     line-height: 40px;
 }
+
 /* ul 列表 */
 .el-menu-vertical-demo {
-    width: 199px !important;
+    width: 199px;
     height: 668px;
     text-align: left;
 }
@@ -174,6 +163,6 @@ export default {
     color: #333;
     text-align: center;
     height: 668px;
-    line-height: 668px;
+    /* line-height: 668px; */
 }
 </style>

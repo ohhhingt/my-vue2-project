@@ -5,13 +5,14 @@ import App from './App.vue'
 import router from './router'
 import Vuex from 'vuex'
 import store from './store'
+import './mock/index.js'
+import axios from 'axios'
 
+Vue.prototype.$http = axios; // axios
+Vue.use(ElementUI); // Element-UI
 
-Vue.use(ElementUI); // <=
-
-Vue.use(Vuex)
+Vue.use(Vuex) // Vuex
 Vue.prototype.$store = store
-// console.log('Store:', store)
 
 //生产环境的时候，减少打印信息
 Vue.config.productionTip = false
@@ -19,8 +20,5 @@ Vue.config.productionTip = false
 new Vue({
   store,
   router,
-  // created() {
-  //   console.log('vue store', this.$store)
-  // },
   render: h => h(App)
 }).$mount('#app')

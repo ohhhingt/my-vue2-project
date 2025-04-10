@@ -12,10 +12,23 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
+    name: 'Root',
+    redirect: '/login'
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: Register
+  },
+  {
+    path: '/home',
     name: 'Home',
     component: Home,
-    // 渲染出口一进来 渲染One 使用重定向
-    redirect: '/one',
     children: [
       {
         path: '/one',
@@ -28,16 +41,6 @@ const routes = [
         component: Two
       }
     ]
-  },
-  {
-    path: '/login',
-    name: 'Login',
-    component: Login
-  },
-  {
-    path: '/register',
-    name: 'Register',
-    component: Register
   }
 ]
 
