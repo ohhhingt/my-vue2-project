@@ -4,8 +4,8 @@ import store from '../store';
 import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
-import One from '../views/One.vue'
-import Two from '../views/Two.vue'
+import TablePage from '../views/TablePage.vue'
+import HomePage from '../views/HomePage.vue'
 
 Vue.use(VueRouter)
 
@@ -31,14 +31,14 @@ const routes = [
     component: Home,
     children: [
       {
-        path: '/one',
-        name: 'One',
-        component: One
+        path: '/tablepage',
+        name: 'TablePage',
+        component: TablePage
       },
       {
-        path: '/two',
-        name: 'Two',
-        component: Two
+        path: '/homepage',
+        name: 'HomePage',
+        component: HomePage
       }
     ]
   }

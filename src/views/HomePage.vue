@@ -6,7 +6,7 @@
 
 <script>
 export default {
-    name: 'Two',
+    name: 'HomePage',
     data() {
         return {
 

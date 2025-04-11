@@ -7,6 +7,7 @@ import Vuex from 'vuex'
 import store from './store'
 import './mock/index.js'
 import axios from 'axios'
+import './mock';
 
 Vue.prototype.$http = axios; // axios
 Vue.use(ElementUI); // Element-UI
