@@ -1,11 +1,13 @@
 <template>
   <div id="app">
-    <router-view/>
+    <router-view />
   </div>
 </template>
 
 <style>
-html, body {
+/* 这里不能加*号 这种东西项目一开始没加 就不要加了 */
+html,
+body {
   margin: 0;
   padding: 0;
   height: 100%;
@@ -56,5 +58,18 @@ nav a {
 
 nav a.router-link-exact-active {
   color: #42b983;
+}
+
+h1,
+h2 {
+  margin: 0;
+}
+@font-face {
+  font-family: electronicFont;
+  src: url(./font/DS-DIGIT.TTF);
+}
+
+a {
+  text-decoration: none;
 }
 </style>

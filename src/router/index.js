@@ -6,6 +6,7 @@ import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import TablePage from '../views/TablePage.vue'
 import HomePage from '../views/HomePage.vue'
+import EchartsPage from '../views/EchartsPage.vue'
 
 Vue.use(VueRouter)
 
@@ -60,6 +61,14 @@ const routes = [
         }
       }
     ]
+  },
+  {
+    path: '/echartsPage',
+    name: 'EchartsPage',
+    component: EchartsPage,
+    meta: {
+      title: '图表页'
+    }
   }
 ]
 

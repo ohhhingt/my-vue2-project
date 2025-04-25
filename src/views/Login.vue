@@ -53,10 +53,9 @@ export default {
             }
 
             // 调用 Vuex 仓库中的 login 方法，并等待结果  
-            const success = await this.login(user);
+            const res = await this.login(user);
 
-            if (success) {
-                console.log('Login successful, navigating to home...'); 
+            if (res) {
                 // 存储用户信息
                 localStorage.setItem('currentUser', JSON.stringify(user));
 
@@ -75,7 +74,11 @@ export default {
                      type: 'success'
                 });
             } else {
-                console.log('登录失败')
+                // 显示弹窗
+                this.$message({
+                     message: '登录失败！',
+                     type: 'error'
+                });
             }
         },
         goToRegister() {

@@ -28,7 +28,7 @@ export default new Vuex.Store({
         }
     },
     actions: {
-        async login({ commit, state }, user) {  
+        login({ commit, state }, user) {  
             // 从 Vuex 中获取用户列表  
             const users = state.users;  
     
@@ -38,19 +38,29 @@ export default new Vuex.Store({
             if (foundUser) {  
                 // 如果成功更新当前user的状态
                 commit('setUser', foundUser);  
-                console.log('登录成功');   
                 return true;
             } else {  
-                console.log('登录失败');  
                 return false;
             }  
         },
         // 注册
-        register({commit}, user) {
-            // 注册成功，设置当前用户信息
-            commit('setUser', user)
-            // 将用户添加到用户列表
-            commit('addUser', user)
+        register({ commit, state }, user) {  
+            // 从 Vuex 中获取用户列表  
+            const users = state.users;  
+        
+            // 检查用户是否已经注册  
+            const existingUser = users.find(u => u.username === user.username);  
+        
+            if (existingUser) {  
+                // 如果用户已存在，返回 false  
+                return false;  
+            } else {  
+                // 注册成功，设置当前用户信息  
+                commit('setUser', user);  
+                // 将用户添加到用户列表  
+                commit('addUser', user);  
+                return true; // 返回 true 表示注册成功  
+            }  
         },
         // 退出登录用的
         logout({commit}) {
